@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify
 import sqlite3
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 # Conectar ao banco de dados e criar a tabela se não existir
 def init_db():
@@ -63,4 +65,4 @@ def listar_livros():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=10000)
