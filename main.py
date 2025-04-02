@@ -27,7 +27,7 @@ init_db()
 # Página inicial
 @app.route('/')
 def home():
-    return "Bem-vindo à API de Livros!"
+    return "API de livros rodando no render"
 
 # Rota para cadastrar um livro
 @app.route('/doar', methods=['POST'])
@@ -65,4 +65,6 @@ def listar_livros():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=10000)
+    from os import environ
+    port = int(environ.get('PORT', 10000)) 
+    app.run(host='0.0.0.0', port=port, debug=False)
