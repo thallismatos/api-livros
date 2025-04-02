@@ -62,6 +62,26 @@ def listar_livros():
 
     return jsonify(livros_json)
 
+# Rota para deletar um livro pelo ID
+@app.route('/livros/<int:id>', methods=['DELETE'])
+def deletar_livro(id):
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+
+    # Verifica se o livro existe antes de deletar
+    cursor.execute("SELECT * FROM LIVROS WHERE id = ?", (id,))
+    livro = cursor.fetchone()
+
+    if livro is None:
+        conn.close()
+        return jsonify({"error": "Livro não encontrado"}), 404
+
+    cursor.execute("DELETE FROM LIVROS WHERE id = ?", (id,))
+    conn.commit()
+    conn.close()
+
+    return jsonify({"message": "Livro deletado com sucesso!"}), 200
+
 if __name__ == '__main__':
     from os import environ
     port = int(environ.get('PORT', 10000)) 
