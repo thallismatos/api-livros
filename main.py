@@ -3,7 +3,7 @@ import sqlite3
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
 # Conectar ao banco de dados e criar a tabela se não existir
 def init_db():
@@ -21,13 +21,12 @@ def init_db():
     conn.commit()
     conn.close()
 
-
 init_db()
 
 # Página inicial
 @app.route('/')
 def home():
-    return "API de livros rodando no render"
+    return "API de livros rodando no Render"
 
 # Rota para cadastrar um livro
 @app.route('/doar', methods=['POST'])
@@ -62,7 +61,6 @@ def listar_livros():
                     "autor": livro[3], "imagem_url": livro[4]} for livro in livros]
 
     return jsonify(livros_json)
-
 
 if __name__ == '__main__':
     from os import environ
